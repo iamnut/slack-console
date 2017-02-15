@@ -7,7 +7,6 @@ CHANNEL="#nochannel"
 WEBHOOK=""
 
 FROM=`hostname`
-VERBOSE=0
 
 while getopts 'f:n:m:c:' OPTIONS
 do
@@ -20,8 +19,6 @@ do
             MESSAGE=${OPTARG};;
         c)
             CHANNEL=${OPTARG};;
-        v)
-            VERBOSE=1;;
         *)
             echo "Invalid argument."
             exit 1;;
