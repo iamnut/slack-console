@@ -25,8 +25,10 @@ do
     esac
 done
 
+MESSAGE="\n*From*: $FROM\n*Message*: $MESSAGE"
+
 # Try read message from pipe
-test -s /dev/stdin && MESSAGE="\n*From*: $FROM\n*Message*: "$MESSAGE`< /dev/stdin`
+test -p /dev/stdin && MESSAGE=$MESSAGE"\n"'```'`< /dev/stdin`'```'
 
 curl -X POST \
 --data-urlencode "payload={'text':'<!channel> $MESSAGE','channel':'$CHANNEL','username':'$BOTNAME','icon_emoji':'$ICON'}" \
