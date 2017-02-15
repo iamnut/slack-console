@@ -1,0 +1,36 @@
+#!/bin/bash
+
+BOTNAME=`whoami`
+ICON=":strawberry:"
+MESSAGE=""
+CHANNEL="#nochannel"
+WEBHOOK=""
+
+FROM=`hostname`
+VERBOSE=0
+
+while getopts 'f:n:m:c:' OPTIONS
+do
+    case ${OPTIONS} in
+        f)
+            FROM=${OPTARG};;
+        n)
+            BOTNAME=${OPTARG};;
+        m)
+            MESSAGE=${OPTARG};;
+        c)
+            CHANNEL=${OPTARG};;
+        v)
+            VERBOSE=1;;
+        *)
+            echo "Invalid argument."
+            exit 1;;
+    esac
+done
+
+# Try read message from pipe
+test -s /dev/stdin && MESSAGE="\n*From*: $FROM\n*Message*: "$MESSAGE`< /dev/stdin`
+
+curl -X POST \
+--data-urlencode "payload={'text':'<!channel> $MESSAGE','channel':'$CHANNEL','username':'$BOTNAME','icon_emoji':'$ICON'}" \
+$WEBHOOK
